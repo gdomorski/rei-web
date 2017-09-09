@@ -1,0 +1,14 @@
+{
+  "name": "rei-app",
+  "version": "0.0.1",
+  "description": "REI Network front end react + redux application",
+  "scripts": {
+    "start": "env NODE_ENV=development node devServer.js",
+    "build": "rm -rf ./publish/* && env NODE_ENV=production ./../../node_modules/.bin/webpack -p --config webpack.production.config.js --progress --colors && echo Finished Build For ${PWD##*/}"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "main": "server.js"
+}
