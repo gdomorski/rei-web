@@ -9,6 +9,5 @@
   "repository": {
     "type": "git",
     "url": ""
-  },
-  "main": "server.js"
+  }
 }
