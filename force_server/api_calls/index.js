@@ -4,6 +4,9 @@ const fetch = require('fetch-everywhere')
 const FormData = require('form-data')
 const { T } = require('../config/config.js')
 const privateKey = fs.readFileSync('./keys/einstein_platform.pem', 'UTF-8')
+const Counter = require('../models/counter')
+const Product = require('../models/products')
+
 
 /*----------------------*/
 //CORE API CALLS...
@@ -25,18 +28,39 @@ const postSentiment = async document => {
 }
 
 
-const getTweets = async text => {
+const getTweets = async (text, category, item) => {
   const res = await T.get('search/tweets', { q: text, lang: "en", count: 35 })
   // console.log(res, 'RESPONSE')
   let resultsArr = [];
 
-  //filtering the twitter results through Salesforce Einstein, to get the most positive results
 
+  //filtering the twitter results through Salesforce Einstein
   return await Promise.all(res.data.statuses.filter(async tweet => {
     let sentiment = await postSentiment(tweet.text)
-    if(sentiment.probabilities[0].label === 'positive') {
+    let primarySentiment = sentiment.probabilities[0].label
+    if (text.includes('rei sale')) {
+      if (primarySentiment === 'positive') {
+        Counter.findOneAndUpdate({ name: 'positive' }, { $inc: { count: 1 } }).exec()
+      } else if (primarySentiment === 'negative') {
+        Counter.findOneAndUpdate({ name: 'negative' }, { $inc: { count: 1 } }).exec()
+      } else if (primarySentiment === 'neutral') {
+        Counter.findOneAndUpdate({ name: 'neutral' }, { $inc: { count: 1 } }).exec()
+      }
+    }
+    if(text.includes('rei sale') && sentiment.probabilities[0].label === 'positive') {
       return true
     }
+    if(category === 'news' && sentiment.probabilities[0].label === 'positive') {
+      return true
+    }
+    if(category === 'products'){
+      itemToSearchFor = await Product.findOne({name: item})
+      console.log(tweet.text, sentiment.probabilities[0].label)
+      if(itemToSearchFor.sentiment.indexOf(sentiment.probabilities[0].label) !== -1){
+        return true;
+      }
+    }
+
   }))
   return await resultsArr
 }

@@ -61,29 +61,31 @@ module.exports = app => {
   app.route('/counter/:id')
     .put(Counter.update_counter)
 
-  app.get('/tweets/:text', async (req, res) => {
-    let twitterData = await getTweets(decodeURI(req.params.text))
-    //get rid of duplicate tweets
-    let twitterSet = new Set()
-    twitterData  = twitterData.filter(eachTweet => {
-      let firstTenCharacters = eachTweet.text.slice(0,10)
-      if (twitterSet.has(firstTenCharacters)){
-        return false;
-      } else {
-        twitterSet.add(firstTenCharacters)
-        return true;
-      }
-    }).map(eachTweet => {
-      let newText = eachTweet.text.slice(0, eachTweet.text.lastIndexOf('http'))
-      return ({
-        text: newText,
-        name: eachTweet.user.name,
-        screenName: eachTweet.user.screen_name,
-        img: eachTweet.entities.media ? eachTweet.entities.media[0].media_url : "",
-        profileImg: eachTweet.user.profile_image_url_https
-      }
-    )}
-  )
+  app.route('/tweets')
+     .post(async (req, res) => {
+      let twitterData = await getTweets(req.body.tweets, req.body.category, req.body.room)
+
+      //get rid of duplicate tweets
+      let twitterSet = new Set()
+      twitterData  = twitterData.filter(eachTweet => {
+        let firstTenCharacters = eachTweet.text.slice(0,10)
+        if (twitterSet.has(firstTenCharacters)){
+          return false;
+        } else {
+          twitterSet.add(firstTenCharacters)
+          return true;
+        }
+      }).map(eachTweet => {
+        let newText = eachTweet.text.slice(0, eachTweet.text.lastIndexOf('http'))
+        return ({
+          text: newText,
+          name: eachTweet.user.name,
+          screenName: eachTweet.user.screen_name,
+          img: eachTweet.entities.media ? eachTweet.entities.media[0].media_url : "",
+          profileImg: eachTweet.user.profile_image_url_https
+        }
+      )}
+    )
     res.status(200).json(twitterData)
   })
 

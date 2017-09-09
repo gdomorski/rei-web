@@ -67,11 +67,9 @@ const publishTweet = async (socket, itemToSearchFor, category, tweet) => {
   if (isGlobalReiTweets) {
     if (primarySentiment === 'positive') {
       Counter.findOneAndUpdate({ name: 'positive' }, { $inc: { count: 1 } }).exec()
-    }
-    else if (primarySentiment === 'negative') {
+    } else if (primarySentiment === 'negative') {
       Counter.findOneAndUpdate({ name: 'negative' }, { $inc: { count: 1 } }).exec()
-    }
-    else if (primarySentiment === 'neutral') {
+    } else if (primarySentiment === 'neutral') {
       Counter.findOneAndUpdate({ name: 'neutral' }, { $inc: { count: 1 } }).exec()
     }
   }

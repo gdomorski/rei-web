@@ -4,6 +4,7 @@ import {defaultAction} from '../../../shared/actions/defaultAction.js'
 import * as ActionTypes from '../../../shared/constants/actionTypes'
 import {capitalizeFirstLetter} from '../../../shared/utils/display.js'
 import Config from '../../reinetwork/src/config.js';
+import {Link} from 'react-router'
 
 class ProductsPage extends Component {
   async componentDidMount(){
@@ -70,7 +71,7 @@ class ProductsPage extends Component {
       currentSentiment = sentiment.map(s => <span key={s}>{capitalizeFirstLetter(s)} </span>)
     }
 
-    return ( 
+    return (
       <div className="container">
         <div className="row">
           <div className="col-md-12">
@@ -92,6 +93,13 @@ class ProductsPage extends Component {
               <b>Current Sentiment:</b> {currentSentiment}
             </div>
 
+            <div>
+              <b>Our Main Product To Promote:</b><Link target="_blank" to={this.props.products.productLink}> {this.props.products.highlightedProduct}</Link>
+            </div>
+            <div>
+              <b>Our Main Product To Promote Sell Price:</b> ${this.props.products.highlightedProductSellPrice}
+            </div>
+
             <form style={{margin: "0", paddingLeft: "0"}} onSubmit={e => { e.preventDefault(); this.sendInfoToServer()}}>
               <input
                 style={{margin: "0"}}
@@ -104,7 +112,7 @@ class ProductsPage extends Component {
               />
 
               <div style={{marginTop: "10px"}}>Please Pick a Sentiment</div>
-              
+
               <select value={this.props.formData.productSentimentToChange} onChange={this.updateMe} required>
                 <option value="everything">Allow Everything</option>
                 <option value="negative">Negative</option>
@@ -114,7 +122,7 @@ class ProductsPage extends Component {
               </select>
 
               <div style={{marginTop: "10px"}}>Optional: Please pick a product to remove</div>
-              
+
               <select value={this.props.formData.productToRemove} onChange={e => this.props.updateRemoveProduct(e.target.value)}>
                 <option value="">None</option>
                 {productsToRemove}

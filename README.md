@@ -31,15 +31,16 @@ react-native run-ios
 > **NOTE:** both the Web App and the Native App require the API server to be running
 
 
+-----TWITTER STREAMING API RATE LIMITING INFO----
+https://dev.twitter.com/streaming/overview/connecting
+
+In a real app, we'd have a fewer number of long running connections for many keywords, and then on our server we'd filter the Tweets based on what keywords they applied to, and then store the tweets appropriately in our database, and then from there add them to the appropriate feeds in the Native App.
 
 ### System requirements
 - Node Version 8.4.0
 - XCode
 
-
-## About
-
-Why I Believe the REI Network is valuable for both consumers and the business
+## Why I Believe the REI Network is valuable for both consumers and the business
 
 Recreational Equipment, Inc. (REI), was formed by a group of 23 mountain climbing buddies who loved to get outside and play, and know first-hand the importance of quality outdoor gear. Whether you're new to outdoor adventure or a seasoned pro, the “Brand Promise” walking into an REI Co-Op store or going online at REI.com, is that you are going to be getting expert advice from someone who has used it on the trails, slopes and waterways where they play.
 
@@ -67,11 +68,3 @@ I am pleased to present the REI network, powered by SalesForce's Einstein API's 
 
 
 ![system architecture](https://s3.amazonaws.com/rei-today/system-architecture.png)
-
-
-
-
------TWITTER STREAMING API RATE LIMITING INFO----
-https://dev.twitter.com/streaming/overview/connecting
-
-In a real app, we'd have a fewer number of long running connections for many keywords, and then on our server we'd filter the Tweets based on what keywords they applied to, and then store the tweets appropriately in our database, and then from there add them to the appropriate feeds in the Native App.
