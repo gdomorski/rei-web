@@ -2,7 +2,6 @@
 
 ![screenshot](./screenshot.png)
 
-
 ## Visit The Production Web App
 It's live here: http://rei-network.s3-website-us-east-1.amazonaws.com
 
@@ -31,7 +30,7 @@ react-native run-ios
 > **NOTE:** both the Web App and the Native App require the API server to be running
 
 
------TWITTER STREAMING API RATE LIMITING INFO----
+## -----TWITTER STREAMING API RATE LIMITING INFO----
 https://dev.twitter.com/streaming/overview/connecting
 
 In a real app, we'd have a fewer number of long running connections for many keywords, and then on our server we'd filter the Tweets based on what keywords they applied to, and then store the tweets appropriately in our database, and then from there add them to the appropriate feeds in the Native App.
